@@ -3,150 +3,334 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nguyễn Thanh Long - Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+  <title>Thư Chúc 20/10</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Poppins', sans-serif; background: #f0f4f8; color: #333; position: relative; }
-    header {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: #fff;
-      padding: 40px 20px;
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom, #ffe6f0, #fff0f5);
+      font-family: 'Playfair Display', serif;
+      overflow: hidden;
+    }
+    .envelope {
+      width: 340px;
+      height: 240px;
+      background: #fff;
+      border: 3px solid #ff99cc;
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
+      z-index: 10;
+    }
+    .envelope:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 105, 180, 0.5);
+    }
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(to bottom, #ff80b3, #ff4d94);
+      clip-path: polygon(50% 50%, 0 0, 100% 0);
+      transition: transform 0.8s ease-in-out;
+      transform-origin: top;
+    }
+    .envelope.open::before {
+      transform: translateY(-100%) rotateX(180deg);
+    }
+    .letter {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      background: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      padding: 25px;
+      font-size: 22px;
+      color: #c2185b;
+      border: 2px solid #ff99cc;
+      border-radius: 8px;
+      transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+      opacity: 0;
+      transform: translateY(50px);
+      z-index: 15;
     }
-    header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    header p { font-size: 1.2rem; }
-    nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; padding: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    nav ul li { margin: 10px; }
-    nav ul li a { text-decoration: none; color: #2a5298; font-weight: 600; transition: color 0.3s; }
-    nav ul li a:hover { color: #1e3c72; }
-    .section { padding: 60px 20px; max-width: 1000px; margin: auto; position: relative; z-index: 2; }
-    .section h2 { font-size: 2rem; color: #2a5298; margin-bottom: 20px; text-align: center; }
-    .avatar { width: 160px; height: 160px; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin: auto; display: block; object-fit: cover; object-position: center; }
-    .bio { text-align: center; margin-top: 20px; }
-    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .skill { background: #fff; border-left: 6px solid #2a5298; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .project { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 20px; }
-    .project h3 { color: #1e3c72; }
-    .contact form { display: grid; gap: 15px; }
-    .contact input, .contact textarea { padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
-    .contact button { background: #2a5298; color: #fff; border: none; padding: 10px; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
-    .contact button:hover { background: #1e3c72; }
-    footer { text-align: center; padding: 30px; background: #2a5298; color: white; }
-    #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-    .social-sidebar {
-      position: fixed; top: 50%; left: 10px; transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 10px;
-      z-index: 3;
+    .envelope.open .letter {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+      animation: sparkle 3s infinite ease-in-out;
     }
-    .social-sidebar a {
-      color: #2a5298; font-size: 20px; background: #fff; padding: 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: background 0.3s;
+    .envelope .letter.hidden {
+      transform: translateY(50px);
+      opacity: 0;
     }
-    .social-sidebar a:hover { background: #2a5298; color: #fff; }
-    .quote-right {
-      position: fixed; top: 50%; right: 10px; transform: translateY(-50%);
-      max-width: 160px; background: #fff; padding: 15px;
-      font-style: italic; font-size: 0.9rem;
-      color: #2a5298; border-left: 4px solid #2a5298;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1); border-radius: 8px;
-      z-index: 3;
+    @keyframes sparkle {
+      0%, 100% { box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(255, 105, 180, 0.8); }
+    }
+    .letter p {
+      animation: fadeInText 1s ease-in-out forwards;
+    }
+    @keyframes fadeInText {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
-  <div id="particles-js"></div>
-  <div class="social-sidebar" data-aos="fade-right">
-    <a href="https://facebook.com/nguyenlong1702" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://instagram.com/nguyenlongthanhthg" title="Instagram"><i class="fab fa-instagram"></i></a>
-  </div>
-  <div class="quote-right" data-aos="fade-left">
-    “Học không bao giờ là đủ – hãy tiến lên!”
-  </div>
-
-  <header data-aos="fade-down">
-    <img src="https://scontent.fsgn8-3.fna.fbcdn.net/v/t39.30808-6/502476240_1036178998635589_2300650831208283342_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGPdIapfyTuRz09LuYBlgLsFfgWVFihfXEV-BZUWKF9cUuGMRjbeHJ4Fjwfdw6RetPtetY6yZYEG7rZ7_QzVpju&_nc_ohc=rRPncQ8RxK8Q7kNvwEOKKwN&_nc_oc=AdmAqyOqklqGLNzEzDjWhY7F96R3W5gfhHFPwYMsUdH8Twx9eIOE9y4MHyLnEwhAfXEuY7tBl8fIwT2Mu5S2vDtP&_nc_zt=23&_nc_ht=scontent.fsgn8-3.fna&_nc_gid=v25JjG0SLu533NgDD6OO4w&oh=00_AfRDnjwryBXRiUgeXrg1VifPiZODZDZjvxkkYCAuiTM-Hg&oe=6873BDCE" class="avatar" alt="Avatar">
-    <h1>Nguyễn Thanh Long</h1>
-    <p>Developer & Student @ THPT Củ Chi</p>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="#about">Giới thiệu</a></li>
-      <li><a href="#skills">Kỹ năng</a></li>
-      <li><a href="#contact">Liên hệ</a></li>
-    </ul>
-  </nav>
-
-  <section class="section" id="about" data-aos="fade-up">
-    <h2>Giới thiệu</h2>
-    <p class="bio">Xin chào! Mình là học sinh lớp 11A3 đến từ THPT Củ Chi, đam mê công nghệ và thích khám phá những điều mới trong lĩnh vực lập trình, IoT và thiết kế web. Đây là không gian để mình thể hiện bản thân và chia sẻ những điều mình làm được!</p>
-  </section>
-
-  <section class="section" id="skills" data-aos="fade-up">
-    <h2>Kỹ năng học tập</h2>
-    <div class="skills">
-      <div class="skill"><strong>Toán:</strong> Tạm tạm (65%)</div>
-      <div class="skill"><strong>Văn:</strong> Chém gió tốt (85%)</div>
-      <div class="skill"><strong>Lý:</strong> Gần liệt (30%)</div>
-      <div class="skill"><strong>Hóa:</strong> Biết áp dụng công thức (75%)</div>
-      <div class="skill"><strong>Tiếng Anh:</strong> Speaking tốt (95%)</div>
-      <div class="skill"><strong>Sinh:</strong> Có quý nhân phù trợ (90%)</div>
-      <div class="skill"><strong>Quốc phòng:</strong> Ước mơ làm quân nhân (85%)</div>
-      <div class="skill"><strong>Lịch sử:</strong> 10 điểm yêu nước (75%)</div>
+  <canvas id="petals"></canvas>
+  <div class="envelope" id="envelope">
+    <div class="letter hidden" id="letter">
+      <p>Chúc mừng ngày 20/10!<br>
+      Chúc bà luôn rực rỡ, hạnh phúc và học giỏi, gặp nhiều may mắn!🙆‍♂️🌺✨</p>
     </div>
-  </section>
-
-  <section class="section contact" id="contact" data-aos="fade-up">
-    <h2>Liên hệ với mình</h2>
-    <form action="https://formspree.io/f/xjkwygzd" method="POST">
-      <input type="text" name="name" placeholder="Họ tên" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <textarea name="message" rows="5" placeholder="Nội dung..." required></textarea>
-      <button type="submit">Gửi</button>
-    </form>
-  </section>
-
-  <footer>
-    <p>© 2025 Nguyễn Thanh Long | Facebook: <a href="https://facebook.com/nguyenlong1702" style="color:#fff">nguyenlong1702</a></p>
-  </footer>
-
-  <audio id="bg-music" loop>
-    <source src="https://lit2talks.com/tool/play_audio.php?id=MjA2Ng%3D%3D" type="audio/mp4">
-    Trình duyệt của bạn không hỗ trợ phát nhạc.
-  </audio>
-  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
-    <button onclick="toggleMusic()" style="background:#2a5298;color:white;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;">
-      🎵 Bật / Tắt nhạc
-    </button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init();
-    particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js/demo/particles.json');
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+    
+    envelope.addEventListener('click', () => {
+      envelope.classList.toggle('open');
+      letter.classList.toggle('hidden');
+    });
 
-    const music = document.getElementById('bg-music');
-    let hasPlayed = false;
-    function toggleMusic() {
-      if (music.paused) {
-        music.play();
-        hasPlayed = true;
-      } else {
-        music.pause();
+    // Canvas setup
+    const canvas = document.getElementById('petals');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const petals = [];
+    const petalCount = 10; // Giảm số lượng cánh hoa
+    const stars = [];
+    const starCount = 8; // Giảm số lượng ngôi sao
+    const hearts = [];
+    const heartCount = 8; // Giảm số lượng trái tim xoay quanh thư
+    const fallingHearts = [];
+    const fallingHeartCount = 15; // Số lượng trái tim rơi
+
+    class Petal {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height * 0.3;
+        this.size = Math.random() * 10 + 5;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 1 + 0.5;
+        this.opacity = 1;
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = Math.random() * 0.05 - 0.025;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.angle += this.spin;
+        this.opacity = this.y < canvas.height * 0.9 ? 1 : 1 - (this.y - canvas.height * 0.9) / (canvas.height * 0.1);
+        if (this.y > canvas.height || this.x < -this.size || this.x > canvas.width + this.size || this.opacity <= 0) {
+          this.x = Math.random() * canvas.width;
+          this.y = -this.size;
+          this.opacity = 1;
+          this.angle = Math.random() * Math.PI * 2;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = `rgba(255, ${Math.random() * 50 + 150}, ${Math.random() * 50 + 150}, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size);
+        ctx.quadraticCurveTo(this.size * 0.4, 0, 0, this.size);
+        ctx.quadraticCurveTo(-this.size * 0.4, 0, 0, -this.size);
+        ctx.fill();
+        ctx.restore();
       }
     }
-    document.addEventListener('click', () => {
-      if (!hasPlayed) {
-        music.play().catch(() => {});
-        hasPlayed = true;
+
+    class Star {
+      constructor() {
+        const envelopeRect = envelope.getBoundingClientRect();
+        this.x = envelopeRect.left + Math.random() * envelopeRect.width;
+        this.y = envelopeRect.top + Math.random() * envelopeRect.height;
+        this.size = Math.random() * 5 + 3;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+        this.opacity = Math.random() * 0.5 + 0.5;
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = Math.random() * 0.05 - 0.025;
       }
-    }, { once: true });
+      update() {
+        if (!envelope.classList.contains('open')) return;
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.angle += this.spin;
+        this.opacity -= 0.01;
+        if (this.opacity <= 0 || Math.abs(this.x - (canvas.width / 2)) > 200 || Math.abs(this.y - (canvas.height / 2)) > 200) {
+          const envelopeRect = envelope.getBoundingClientRect();
+          this.x = envelopeRect.left + Math.random() * envelopeRect.width;
+          this.y = envelopeRect.top + Math.random() * envelopeRect.height;
+          this.opacity = Math.random() * 0.5 + 0.5;
+          this.size = Math.random() * 5 + 3;
+          this.angle = Math.random() * Math.PI * 2;
+        }
+      }
+      draw() {
+        if (!envelope.classList.contains('open')) return;
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = `rgba(255, 255, ${Math.random() * 50 + 200}, ${this.opacity})`;
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+          ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * this.size, Math.sin((18 + i * 72) * Math.PI / 180) * this.size);
+          ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (this.size / 2), Math.sin((54 + i * 72) * Math.PI / 180) * (this.size / 2));
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    class Heart {
+      constructor() {
+        const envelopeRect = envelope.getBoundingClientRect();
+        this.x = envelopeRect.left + Math.random() * envelopeRect.width;
+        this.y = envelopeRect.top + Math.random() * envelopeRect.height;
+        this.size = Math.random() * 6 + 4;
+        this.speedX = Math.random() * 0.8 - 0.4;
+        this.speedY = Math.random() * 0.8 - 0.4;
+        this.opacity = Math.random() * 0.5 + 0.5;
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = Math.random() * 0.03 - 0.015;
+      }
+      update() {
+        if (!envelope.classList.contains('open')) return;
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.angle += this.spin;
+        this.opacity -= 0.008;
+        if (this.opacity <= 0 || Math.abs(this.x - (canvas.width / 2)) > 200 || Math.abs(this.y - (canvas.height / 2)) > 200) {
+          const envelopeRect = envelope.getBoundingClientRect();
+          this.x = envelopeRect.left + Math.random() * envelopeRect.width;
+          this.y = envelopeRect.top + Math.random() * envelopeRect.height;
+          this.opacity = Math.random() * 0.5 + 0.5;
+          this.size = Math.random() * 6 + 4;
+          this.angle = Math.random() * Math.PI * 2;
+        }
+      }
+      draw() {
+        if (!envelope.classList.contains('open')) return;
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = `rgba(255, ${Math.random() * 50 + 100}, ${Math.random() * 50 + 100}, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.moveTo(0, this.size / 2);
+        ctx.bezierCurveTo(this.size * 0.75, this.size * 0.1, this.size, -this.size / 2, 0, -this.size);
+        ctx.bezierCurveTo(-this.size, -this.size / 2, -this.size * 0.75, this.size * 0.1, 0, this.size / 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    class FallingHeart {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = -Math.random() * canvas.height * 0.3;
+        this.size = Math.random() * 8 + 4;
+        this.speedX = Math.random() * 0.4 - 0.2;
+        this.speedY = Math.random() * 1.2 + 0.6;
+        this.opacity = 1;
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = Math.random() * 0.04 - 0.02;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.angle += this.spin;
+        this.opacity = this.y < canvas.height * 0.9 ? 1 : 1 - (this.y - canvas.height * 0.9) / (canvas.height * 0.1);
+        if (this.y > canvas.height || this.x < -this.size || this.x > canvas.width + this.size || this.opacity <= 0) {
+          this.x = Math.random() * canvas.width;
+          this.y = -this.size;
+          this.opacity = 1;
+          this.angle = Math.random() * Math.PI * 2;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = `rgba(255, ${Math.random() * 50 + 100}, ${Math.random() * 50 + 100}, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.moveTo(0, this.size / 2);
+        ctx.bezierCurveTo(this.size * 0.75, this.size * 0.1, this.size, -this.size / 2, 0, -this.size);
+        ctx.bezierCurveTo(-this.size, -this.size / 2, -this.size * 0.75, this.size * 0.1, 0, this.size / 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < petalCount; i++) {
+      petals.push(new Petal());
+    }
+    for (let i = 0; i < starCount; i++) {
+      stars.push(new Star());
+    }
+    for (let i = 0; i < heartCount; i++) {
+      hearts.push(new Heart());
+    }
+    for (let i = 0; i < fallingHeartCount; i++) {
+      fallingHearts.push(new FallingHeart());
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(petal => {
+        petal.update();
+        petal.draw();
+      });
+      stars.forEach(star => {
+        star.update();
+        star.draw();
+      });
+      hearts.forEach(heart => {
+        heart.update();
+        heart.draw();
+      });
+      fallingHearts.forEach(heart => {
+        heart.update();
+        heart.draw();
+      });
+      requestAnimationFrame(animatePetals);
+    }
+
+    animatePetals();
   </script>
 </body>
 </html>
